@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { config } from "./config/env";
 import rateLimit from "express-rate-limit";
 import { logger } from "./utils/logger";
+import { errorMiddleware } from "./middlewares/error.middleware";
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use((req, _res, next) => {
   next();
 });
 
-app.get("/health", (req, res) => {
+app.get("/api/v1/health", (req, res) => {
   res.json({
     success: true,
     message: "Drivora",
@@ -48,6 +49,10 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
+app.use(errorMiddleware);
+
 app.listen(config.port, () => {
   logger.info(`Server is running on port ${config.port} in ${config.env} mode`);
 });
+
+export default app;
