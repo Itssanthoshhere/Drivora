@@ -31,20 +31,31 @@ export const userAuthStore = create<AuthStore>((set) => ({
   error: null,
 
   loadUser: async () => {
+    set({ isLoading: true });
     try {
       const token = await SecureStore.getItemAsync("accessToken");
 
-      if (!token) return;
+      if (!token) {
+        set({ isLoading: false });
+        return;
+      }
 
       const payload = jwtDecode<{ exp: number }>(token);
 
-      if (payload.exp * 1000 < Date.now()) return;
+      if (payload.exp * 1000 < Date.now()) {
+        set({ isLoading: false });
+        return;
+      }
 
       const res = await api.get("/auth/me");
-      set({ user: res.data.data, isAuthenticated: true });
-    } catch (e) {
-      await SecureStore.deleteItemAsync("accessToken");
-      await SecureStore.deleteItemAsync("refreshToken");
+      set({ user: res.data.data, isAuthenticated: true, isLoading: false });
+    } catch (e: any) {
+      const status = e?.response?.status;
+      if (status === 401 || status === 403) {
+        await SecureStore.deleteItemAsync("accessToken");
+        await SecureStore.deleteItemAsync("refreshToken");
+      }
+      set({ isLoading: false });
     }
   },
 

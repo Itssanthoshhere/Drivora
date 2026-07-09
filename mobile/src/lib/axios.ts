@@ -16,37 +16,54 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
+let refreshPromise: Promise<string | null> | null = null;
+
 api.interceptors.response.use(
   (res) => res,
   async (error: AxiosError) => {
     const original = error.config as any;
 
-    if (error?.response?.status == 401 && !original._retry) {
+    if (error?.response?.status === 401 && !original._retry) {
       original._retry = true;
 
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          try {
+            const refreshToken = await SecureStore.getItemAsync("refreshToken");
+
+            if (!refreshToken) throw new Error("No refresh token");
+
+            const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+              refreshToken,
+            });
+
+            const { accessToken, refreshToken: newRefresh } = data.data;
+
+            await SecureStore.setItemAsync("accessToken", accessToken);
+            await SecureStore.setItemAsync("refreshToken", newRefresh);
+
+            return accessToken;
+          } catch (err) {
+            await SecureStore.deleteItemAsync("accessToken");
+            await SecureStore.deleteItemAsync("refreshToken");
+            throw err;
+          } finally {
+            refreshPromise = null;
+          }
+        })();
+      }
+
       try {
-        const refreshToken = await SecureStore.getItemAsync("refreshToken");
-
-        if (!refreshToken) throw new Error("No refresh token");
-
-        const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-          refreshToken,
-        });
-
-        const { accessToken, refreshToken: newRefresh } = data.data;
-
-        await SecureStore.setItemAsync("accessToken", accessToken);
-        await SecureStore.setItemAsync("refreshToken", newRefresh);
-
-        original.headers.Authorization = `Bearer ${accessToken}`;
-
-        return api(original);
+        const newAccessToken = await refreshPromise;
+        if (newAccessToken) {
+          original.headers.Authorization = `Bearer ${newAccessToken}`;
+          return api(original);
+        }
       } catch (err) {
-        await SecureStore.deleteItemAsync("accessToken");
-        await SecureStore.deleteItemAsync("refreshToken");
-
         return Promise.reject(err);
       }
     }
-  },
+
+    return Promise.reject(error);
+  }
 );

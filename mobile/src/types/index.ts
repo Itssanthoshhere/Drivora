@@ -73,7 +73,7 @@ export interface Booking {
     brand: string;
     model: string;
     images: string[];
-    fuelType: string;
+    fuelType: "PETROL" | "DIESEL" | "ELECTRIC" | "CNG";
     seats: number;
     sublocation: {
       name: string;
