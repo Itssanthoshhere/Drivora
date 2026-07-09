@@ -38,7 +38,7 @@ npm install --save-dev tailwindcss@^3.4.17 prettier-plugin-tailwindcss@^0.5.11 b
 ### 3. Install State Management, Storage & Networking
 
 ```bash
-yarn add zustand axios
+yarn add zustand axios @tanstack/react-query
 npx expo i expo-secure-store
 ```
 
