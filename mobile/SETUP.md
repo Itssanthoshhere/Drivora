@@ -35,7 +35,16 @@ npm install --save-dev tailwindcss@^3.4.17 prettier-plugin-tailwindcss@^0.5.11 b
 
 ---
 
-### 3. Initialize Tailwind Config
+### 3. Install State Management, Storage & Networking
+
+```bash
+yarn add zustand axios
+npx expo i expo-secure-store
+```
+
+---
+
+### 4. Initialize Tailwind Config
 
 ```bash
 npx tailwindcss init
