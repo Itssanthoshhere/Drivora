@@ -5,6 +5,7 @@ import { config } from "./config/env";
 import rateLimit from "express-rate-limit";
 import { logger } from "./utils/logger";
 import { errorMiddleware } from "./middlewares/error.middleware";
+import v1Routes from "./routes/v1/index";
 
 const app = express();
 
@@ -44,6 +45,8 @@ app.get("/api/v1/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/api/v1", v1Routes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });

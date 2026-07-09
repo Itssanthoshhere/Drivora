@@ -17,6 +17,10 @@ export const config = {
     refreshSecret: process.env.JWT_REFRESH_SECRET!,
     accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
+    refreshTokenDays: parseInt(
+      process.env.JWT_REFRESH_EXPIRES_IN?.replace("d", "") || "7",
+      10,
+    ),
   },
   bcrypt: {
     rounds: parseInt(process.env.BCRYPT_ROUNDS || "10", 10),
