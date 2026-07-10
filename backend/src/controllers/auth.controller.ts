@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
-import { sendError, sendSuccess } from "../types";
+import { AuthenticateRequest, sendError, sendSuccess } from "../types";
 import { authService } from "../services/auth.service";
+import { prisma } from "../utils/prisma";
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -65,6 +66,37 @@ export const authController = {
         sendError(res, err.message, 401);
         return;
       }
+      next(err);
+    }
+  },
+
+  async me(req: AuthenticateRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        sendError(res, "Unauthorized", 401);
+        return;
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.userId },
+        select: {
+          id: true,
+          email: true,
+          phone: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          isVerified: true,
+        },
+      });
+
+      if (!user) {
+        sendError(res, "User not found", 404);
+        return;
+      }
+
+      sendSuccess(res, "User fetched", user);
+    } catch (err) {
       next(err);
     }
   },

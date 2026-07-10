@@ -29,7 +29,7 @@ export default function Index() {
     }
   };
   return (
-    <View className="flex-1 bg-white items-center justify-center">
+    <View className="items-center justify-center flex-1 bg-white">
       <ActivityIndicator color={"#E8500A"} size={"large"} />
     </View>
   );

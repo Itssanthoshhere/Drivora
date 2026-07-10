@@ -31,15 +31,13 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="(auth)" />
           <Stack.Screen name="(main)" />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="booking-success"
             options={{ gestureEnabled: false }}
-          />
+          /> */}
         </Stack>
 
-        <StatusBar
-          barStyle="dark-content"
-        />
+        <StatusBar barStyle="dark-content" />
       </ThemeProvider>
     </QueryClientProvider>
   );
