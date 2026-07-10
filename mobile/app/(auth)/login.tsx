@@ -22,6 +22,10 @@ const Login = () => {
   );
   const { login, isLoading, error, clearError } = userAuthStore();
 
+  const clearFieldError = (field: "email" | "password") => {
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
 
@@ -102,7 +106,10 @@ const Login = () => {
                 >
                   <TextInput
                     value={email}
-                    onChangeText={setEmail}
+                    onChangeText={(t) => {
+                      setEmail(t);
+                      clearFieldError("email");
+                    }}
                     placeholder="you@example.com"
                     keyboardType="email-address"
                     placeholderTextColor={"#5A5A72"}
@@ -130,7 +137,10 @@ const Login = () => {
                 >
                   <TextInput
                     value={password}
-                    onChangeText={setPassword}
+                    onChangeText={(t) => {
+                      setPassword(t);
+                      clearFieldError("password");
+                    }}
                     placeholder="Min. 8 Characters"
                     placeholderTextColor={"#5A5A72"}
                     secureTextEntry={!showPassword}

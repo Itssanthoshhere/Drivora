@@ -72,8 +72,13 @@ export const authController = {
 
   async me(req: AuthenticateRequest, res: Response, next: NextFunction) {
     try {
+      if (!req.user) {
+        sendError(res, "Unauthorized", 401);
+        return;
+      }
+
       const user = await prisma.user.findUnique({
-        where: { id: req.user?.userId },
+        where: { id: req.user.userId },
         select: {
           id: true,
           email: true,

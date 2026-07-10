@@ -51,8 +51,8 @@ const Register = () => {
 
     try {
       await register({
-        firstName,
-        lastName,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         email: email.trim().toLowerCase(),
         phone,
         password,
@@ -260,6 +260,7 @@ const Register = () => {
           </View>
 
           <TouchableOpacity
+            disabled={isLoading}
             onPress={handleRegister}
             className="bg-[#E8500A] rounded-2xl py-5 items-center mb-5 mt-5"
           >

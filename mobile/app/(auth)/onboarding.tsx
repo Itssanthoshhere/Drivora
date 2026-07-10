@@ -89,7 +89,11 @@ const Onboarding = () => {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View className="px-6 py-2 opacity-0">
+          <View
+            className="px-6 py-2 opacity-0"
+            importantForAccessibility="no-hide-descendants"
+            accessibilityElementsHidden={true}
+          >
             <Text>Skip</Text>
           </View>
         )}
