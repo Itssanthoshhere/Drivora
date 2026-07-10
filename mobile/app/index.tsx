@@ -1,11 +1,11 @@
-import { userAuthStore } from "@/src/store/auth.store";
+import { useAuthStore } from "@/src/store/auth.store";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { router } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
-  const { loadUser } = userAuthStore();
+  const { loadUser } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -17,7 +17,7 @@ export default function Index() {
     if (token) {
       await loadUser();
 
-      const state = userAuthStore.getState();
+      const state = useAuthStore.getState();
 
       if (state.isAuthenticated) {
         router.replace("/(main)/home");

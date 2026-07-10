@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { userAuthStore } from "@/src/store/auth.store";
+import { useAuthStore } from "@/src/store/auth.store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
@@ -20,7 +20,7 @@ const Login = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
-  const { login, isLoading, error, clearError } = userAuthStore();
+  const { login, isLoading, error, clearError } = useAuthStore();
 
   const clearFieldError = (field: "email" | "password") => {
     setErrors((prev) => ({ ...prev, [field]: undefined }));

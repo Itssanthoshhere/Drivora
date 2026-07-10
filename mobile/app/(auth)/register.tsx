@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useCallback, useState } from "react";
-import { userAuthStore } from "@/src/store/auth.store";
+import { useAuthStore } from "@/src/store/auth.store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
@@ -22,7 +22,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { register, isLoading, error, clearError } = userAuthStore();
+  const { register, isLoading, error, clearError } = useAuthStore();
 
   const clearFieldError = useCallback((field: string) => {
     setErrors((e) => ({ ...e, [field]: "" }));

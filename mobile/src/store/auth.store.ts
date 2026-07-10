@@ -24,7 +24,7 @@ interface AuthStore {
   loadUser: () => Promise<void>;
 }
 
-export const userAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: false,
