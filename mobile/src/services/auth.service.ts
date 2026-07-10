@@ -10,7 +10,7 @@ export const authService = {
     firstName: string;
     lastName: string;
   }): Promise<LoginResponse> {
-    const res = await api.post("/auth/register", data);
+    const res = await api.post("auth/register", data);
 
     await authService.saveTokens(
       res.data.data.accessToken,
@@ -21,7 +21,7 @@ export const authService = {
   },
 
   async login(email: string, password: string): Promise<LoginResponse> {
-    const res = await api.post("/auth/login", { email, password });
+    const res = await api.post("auth/login", { email, password });
 
     await authService.saveTokens(
       res.data.data.accessToken,
@@ -35,7 +35,7 @@ export const authService = {
     const refreshToken = await SecureStore.getItemAsync("refreshToken");
 
     if (refreshToken) {
-      await api.post("/auth/logout", { refreshToken }).catch(() => {});
+      await api.post("auth/logout", { refreshToken }).catch(() => {});
     }
 
     await SecureStore.deleteItemAsync("accessToken");

@@ -8,9 +8,9 @@ import {
 } from "@react-navigation/native";
 import { StatusBar, useColorScheme } from "react-native";
 
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
+// export const unstable_settings = {
+//   anchor: "(tabs)",
+// };
 
 const queryClient = new QueryClient({
   defaultOptions: {

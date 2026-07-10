@@ -47,7 +47,7 @@ export const userAuthStore = create<AuthStore>((set) => ({
         return;
       }
 
-      const res = await api.get("/auth/me");
+      const res = await api.get("auth/me");
       set({ user: res.data.data, isAuthenticated: true, isLoading: false });
     } catch (e: any) {
       const status = e?.response?.status;
@@ -66,7 +66,7 @@ export const userAuthStore = create<AuthStore>((set) => ({
       const res = await authService.login(email, password);
       set({ user: res.user, isAuthenticated: true, isLoading: false });
     } catch (err: any) {
-      const message = err.response?.data?.message;
+      const message = err.response?.data?.message || err.message || "Login failed";
       set({ error: message, isLoading: false });
       throw new Error(message);
     }
@@ -79,7 +79,7 @@ export const userAuthStore = create<AuthStore>((set) => ({
       const res = await authService.register(data);
       set({ user: res.user, isAuthenticated: true, isLoading: false });
     } catch (err: any) {
-      const message = err.response?.data?.message;
+      const message = err.response?.data?.message || err.message || "Registration failed";
       set({ error: message, isLoading: false });
       throw new Error(message);
     }
