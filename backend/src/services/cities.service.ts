@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma";
+import { NotFoundError } from "../errors/NotFoundError";
 
 export const citiesService = {
   async getAllCities() {
@@ -15,11 +16,11 @@ export const citiesService = {
   },
 
   async getSublocations(cityId: string) {
-    const city = await prisma.city.findUnique({
-      where: { id: cityId },
+    const city = await prisma.city.findFirst({
+      where: { id: cityId, isActive: true },
     });
 
-    if (!city) throw new Error("City not found");
+    if (!city) throw new NotFoundError("City not found");
 
     return prisma.sublocation.findMany({
       where: { cityId, isActive: true },

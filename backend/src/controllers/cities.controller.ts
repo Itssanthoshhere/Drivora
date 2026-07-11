@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { citiesService } from "../services/cities.service";
 import { sendError, sendSuccess } from "../types";
-
+import { NotFoundError } from "../errors/NotFoundError";
 export const citiesController = {
   async getCities(req: Request, res: Response, next: NextFunction) {
     try {
@@ -20,8 +20,8 @@ export const citiesController = {
 
       sendSuccess(res, "Sublocation Fetched", sublocations);
     } catch (err) {
-      if (err instanceof Error && err.message == "City not found") {
-        sendError(res, "City not found", 404);
+      if (err instanceof NotFoundError) {
+        sendError(res, err.message, 404);
         return;
       }
 
