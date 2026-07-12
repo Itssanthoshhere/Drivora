@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useAuthStore } from "@/src/store/auth.store";
 import { City, Sublocation } from "@/src/types";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -264,7 +265,8 @@ export default function Home() {
           <View className="flex-row mb-4" style={{ gap: 10 }}>
             <TouchableOpacity
               onPress={() => setShowStartPicker(true)}
-              className="flex-1 bg-[#0A0A0F] border border-[#22222E] rounded-2xl p-4"
+              disabled={!canSearch}
+              className={`flex-1 bg-[#0A0A0F] border rounded-2xl p-4 ${!canSearch ? "opacity-40 border-[#22222E]" : "border-[#22222E]"}`}
             >
               <Text className="text-[#E8500A] text-xs font-bold tracking-widest uppercase mb-2">
                 Pickup
@@ -286,7 +288,8 @@ export default function Home() {
 
             <TouchableOpacity
               onPress={() => setShowEndPicker(true)}
-              className="flex-1 bg-[#0A0A0F] border border-[#22222E] rounded-2xl p-4"
+              disabled={!canSearch}
+              className={`flex-1 bg-[#0A0A0F] border rounded-2xl p-4 ${!canSearch ? "opacity-40 border-[#22222E]" : "border-[#22222E]"}`}
             >
               <Text className="mb-2 font-bold tracking-widest text-[#00D4AA] uppercase text-xs">
                 Return
@@ -511,6 +514,37 @@ export default function Home() {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
+
+      <DateTimePickerModal
+        isVisible={showStartPicker}
+        mode="datetime"
+        themeVariant="dark"
+        isDarkModeEnabled={true}
+        buttonTextColorIOS="#E8500A"
+        minimumDate={new Date()}
+        onConfirm={(date) => {
+          setShowStartPicker(false);
+          setStartTime(date);
+          if (date > endTime) {
+            setEndTime(new Date(date.getTime() + 24 * 60 * 60 * 1000));
+          }
+        }}
+        onCancel={() => setShowStartPicker(false)}
+      />
+
+      <DateTimePickerModal
+        isVisible={showEndPicker}
+        mode="datetime"
+        themeVariant="dark"
+        isDarkModeEnabled={true}
+        buttonTextColorIOS="#E8500A"
+        minimumDate={startTime}
+        onConfirm={(date) => {
+          setShowEndPicker(false);
+          setEndTime(date);
+        }}
+        onCancel={() => setShowEndPicker(false)}
+      />
     </SafeAreaView>
   );
 }
