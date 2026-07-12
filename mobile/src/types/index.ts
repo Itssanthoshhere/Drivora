@@ -1,3 +1,9 @@
+export type FuelType = "PETROL" | "DIESEL" | "ELECTRIC" | "CNG";
+export type TransmissionType = "MANUAL" | "AUTOMATIC";
+export type CarStatus = "AVAILABLE" | "BOOKED" | "MAINTENANCE";
+export type BookingStatus =
+  "PENDING" | "CONFIRMED" | "ACTIVE" | "COMPLETED" | "CANCELLED";
+
 export interface User {
   id: string;
   email: string;
@@ -31,14 +37,14 @@ export interface Car {
   model: string;
   year: number;
   registrationNo: string;
-  fuelType: "PETROL" | "DIESEL" | "ELECTRIC" | "CNG";
-  transmission: "MANUAL" | "AUTOMATIC";
+  fuelType: FuelType;
+  transmission: TransmissionType;
   seats: number;
   kmLimitPerDay: number;
   pricePerHour: number;
   pricePerDay: number;
   extraKmCharge: number;
-  status: "AVAILABLE" | "BOOKED" | "MAINTENANCE";
+  status: CarStatus;
   images: string[];
   features: string[];
   subLocationId: string;
@@ -59,7 +65,7 @@ export interface Booking {
   carId: string;
   startTime: string;
   endTime: string;
-  status: "PENDING" | "CONFIRMED" | "ACTIVE" | "COMPLETED" | "CANCELLED";
+  status: BookingStatus;
   totalHours: number;
   basePrice: number;
   totalPrice: number;
@@ -73,7 +79,7 @@ export interface Booking {
     brand: string;
     model: string;
     images: string[];
-    fuelType: "PETROL" | "DIESEL" | "ELECTRIC" | "CNG";
+    fuelType: FuelType;
     seats: number;
     sublocation: {
       name: string;
