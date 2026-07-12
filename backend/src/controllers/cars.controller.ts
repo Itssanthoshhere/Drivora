@@ -3,6 +3,7 @@ import z from "zod";
 import { Request, Response, NextFunction } from "express";
 import { carsService } from "../services/cars.service";
 import { sendError, sendSuccess } from "../types";
+import { NotFoundError } from "../errors/NotFoundError";
 
 const availabilitySchema = z.object({
   sublocationId: z.string().uuid(),
@@ -44,13 +45,13 @@ export const carsController = {
 
   async getCarById(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params["id"] as string;
+      const id = z.string().uuid().parse(req.params["id"]);
       const car = await carsService.getCarById(id);
 
       sendSuccess(res, "Car fetched", car);
     } catch (err) {
-      if (err instanceof Error && err.message == "Car not found") {
-        sendError(res, "Car not found", 404);
+      if (err instanceof NotFoundError) {
+        sendError(res, err.message, 404);
         return;
       }
 
@@ -68,14 +69,31 @@ export const carsController = {
         })
         .parse(req.query);
 
-      const pricing = await carsService.calculatePrice(
-        carId,
-        new Date(startTime),
-        new Date(endTime),
-      );
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+
+      if (end <= start) {
+        sendError(res, "End time must be after start time", 400);
+        return;
+      }
+
+      const minHours =
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+
+      if (minHours < 1) {
+        sendError(res, "Minimum booking duration is 1 hour", 400);
+        return;
+      }
+
+      const pricing = await carsService.calculatePrice(carId, start, end);
 
       sendSuccess(res, "Price Calculated", pricing);
     } catch (err) {
+      if (err instanceof NotFoundError) {
+        sendError(res, err.message, 404);
+        return;
+      }
+
       next(err);
     }
   },

@@ -1,5 +1,6 @@
 import { prisma } from "../utils/prisma";
 import { FuelType, TransmissionType } from "@prisma/client";
+import { NotFoundError } from "../errors/NotFoundError";
 
 interface GetCarsInput {
   sublocationId: string;
@@ -65,14 +66,14 @@ export const carsService = {
       },
     });
 
-    if (!car) throw new Error("Car not found");
+    if (!car) throw new NotFoundError("Car not found");
     return car;
   },
 
   async calculatePrice(carId: string, startTime: Date, endTime: Date) {
     const car = await prisma.car.findUnique({ where: { id: carId } });
 
-    if (!car) throw new Error("Car not found");
+    if (!car) throw new NotFoundError("Car not found");
 
     const hours = (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
     const days = Math.ceil(hours / 24);
