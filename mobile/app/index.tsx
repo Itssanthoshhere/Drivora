@@ -16,13 +16,14 @@ export default function Index() {
 
     if (token) {
       await loadUser();
+      // Check store state - if loadUser failed, user will still be null
+      const { user } = useAuthStore.getState();
 
-      const state = useAuthStore.getState();
-
-      if (state.isAuthenticated) {
+      if (user) {
         router.replace("/(main)/home");
       } else {
-        router.replace("/(auth)/onboarding");
+        // Token was invalid/expired and got cleared
+        router.replace("/(auth)/login");
       }
     } else {
       router.replace("/(auth)/onboarding");
