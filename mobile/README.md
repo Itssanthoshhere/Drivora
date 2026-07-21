@@ -118,8 +118,8 @@ Ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/drivora.git
-   cd drivora
+   git clone https://github.com/Itssanthoshhere/Drivora.git
+   cd Drivora
    ```
 
 2. **Setup the Backend**
