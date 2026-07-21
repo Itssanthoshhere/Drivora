@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -280,9 +281,10 @@ export default function Profile() {
             <Text className="text-base font-semibold text-white">Drivora</Text>
             <Text className="text-[#5A5A72] text-xs mt-0.5">Version 1.0.0</Text>
           </View>
-          <View className="w-10 h-10 rounded-2xl bg-[#E8500A] items-center justify-center">
-            <Text className="text-base font-bold text-white">D</Text>
-          </View>
+          <Image
+            source={require("@/assets/images/icon.png")}
+            className="w-10 h-10 rounded-2xl"
+          />
         </View>
 
         {/* Logout */}

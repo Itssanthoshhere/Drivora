@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import { useAuthStore } from "@/src/store/auth.store";
@@ -67,9 +68,10 @@ const Login = () => {
           <View className="flex-1 px-6 pt-8 pb-10">
             <View>
               <View className="flex-row items-center mb-10">
-                <View className="w-8 h-8 rounded-lg bg-[#E8500A] items-center justify-center mr-2">
-                  <Text className="text-sm font-bold text-white">D</Text>
-                </View>
+                <Image
+                  source={require("@/assets/images/icon.png")}
+                  className="w-8 h-8 rounded-lg mr-2"
+                />
 
                 <Text className="text-lg font-bold tracking-wider text-white">
                   Drivora
