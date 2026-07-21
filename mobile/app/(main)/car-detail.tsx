@@ -37,6 +37,8 @@ export default function CarDetail() {
   useEffect(() => {
     if (car && draft.startTime && draft.endTime) {
       loadPricing();
+    } else {
+      setLoadingPrice(false);
     }
   }, [car, draft.startTime, draft.endTime]);
 
@@ -62,11 +64,6 @@ export default function CarDetail() {
   }, [car]);
 
   if (!car) return null;
-
-  if (!car) {
-    router.back();
-    return null;
-  }
 
   const fuelColor = FUEL_COLORS[car?.fuelType] || "#9494AB";
 
@@ -332,7 +329,8 @@ export default function CarDetail() {
         <TouchableOpacity
           onPress={() => router.push("/(main)/booking-confirm")}
           activeOpacity={0.85}
-          className="bg-[#E8500A] rounded-2xl py-5 items-center"
+          disabled={loadingPrice || !pricing}
+          className={`rounded-2xl py-5 items-center ${loadingPrice || !pricing ? "bg-[#E8500A50]" : "bg-[#E8500A]"}`}
         >
           <Text className="text-base font-bold tracking-widest text-white uppercase">
             Confirm Booking ⋅{" "}

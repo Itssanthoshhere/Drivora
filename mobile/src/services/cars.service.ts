@@ -23,7 +23,13 @@ export const carsService = {
     carId: string;
     startTime: string;
     endTime: string;
-  }) {
+  }): Promise<{
+    days: number;
+    basePrice: number;
+    kmLimitTotal: number;
+    extraKmCharge: number;
+    pricePerHour: number;
+  }> {
     const res = await api.get("/cars/price", { params });
     return res.data.data;
   },
