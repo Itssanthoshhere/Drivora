@@ -144,7 +144,7 @@ Press `i` to launch the iOS simulator or `a` to launch the Android emulator.
 
 ## 📦 Latest Build
 
-- **Android Preview Build**: [View on EAS](https://expo.dev/accounts/itssanthoshhere/projects/drivora/builds/a47a43c8-d900-485f-b0dc-4dfb42019ea6)
+- **Android Preview Build**: [View on EAS](https://expo.dev/accounts/itssanthoshhere/projects/drivora/builds/e30241f9-7c16-4c0a-9329-140a8e69dedc)
 
 ---
 
