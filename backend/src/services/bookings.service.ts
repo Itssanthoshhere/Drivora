@@ -1,4 +1,4 @@
-import { BookingStatus } from "@prisma/client";
+import { BookingStatus, Prisma } from "@prisma/client";
 import { logger } from "../utils/logger";
 import { prisma } from "../utils/prisma";
 
@@ -8,6 +8,25 @@ interface CreateBookingInput {
   startTime: Date;
   endTime: Date;
 }
+
+const findOverlappingBooking = (
+  client: Prisma.TransactionClient | typeof prisma,
+  carId: string,
+  startTime: Date,
+  endTime: Date
+) => {
+  return client.booking.findFirst({
+    where: {
+      carId,
+      status: { in: [BookingStatus.PENDING, BookingStatus.CONFIRMED, BookingStatus.ACTIVE] },
+      OR: [
+        { startTime: { gte: startTime, lt: endTime } },
+        { endTime: { gt: startTime, lte: endTime } },
+        { startTime: { lte: startTime }, endTime: { gte: endTime } },
+      ],
+    },
+  });
+};
 
 export const bookingsService = {
   async createBooking(input: CreateBookingInput) {
@@ -22,18 +41,7 @@ export const bookingsService = {
     if (car.status == "MAINTENANCE")
       throw new Error("Car is under maintenance");
 
-    const overlap = await prisma.booking.findFirst({
-      where: {
-        carId,
-        status: { in: ["PENDING", "CONFIRMED", "ACTIVE"] },
-        OR: [
-          { startTime: { gte: startTime, lt: endTime } },
-          { endTime: { gt: startTime, lte: endTime } },
-          { startTime: { lte: startTime }, endTime: { gte: endTime } },
-        ],
-      },
-    });
-
+    const overlap = await findOverlappingBooking(prisma, carId, startTime, endTime);
     if (overlap)
       throw new Error("Car is not available for the selected time slot");
 
@@ -45,17 +53,7 @@ export const bookingsService = {
     const kmLimitTotal = car.kmLimitPerDay * days;
 
     const booking = await prisma.$transaction(async (tx) => {
-      const txOverlap = await tx.booking.findFirst({
-        where: {
-          carId,
-          status: { in: ["PENDING", "CONFIRMED", "ACTIVE"] },
-          OR: [
-            { startTime: { gte: startTime, lt: endTime } },
-            { endTime: { gt: startTime, lte: endTime } },
-            { startTime: { lte: startTime }, endTime: { gte: endTime } },
-          ],
-        },
-      });
+      const txOverlap = await findOverlappingBooking(tx, carId, startTime, endTime);
 
       if (txOverlap)
         throw new Error("Car is not available for the selected time slot");
@@ -81,6 +79,8 @@ export const bookingsService = {
           },
         },
       });
+    }, {
+      isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
     });
 
     logger.info(`Booking created: ${booking.id} for user ${userId}`);

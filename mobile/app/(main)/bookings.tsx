@@ -13,6 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Booking } from "@/src/types";
 import { bookingsService } from "@/src/services/bookings.service";
+import { formatDate, formatTime } from "@/src/utils/date";
+import { useMemo } from "react";
 
 type TabType = "ALL" | "CONFIRMED" | "ACTIVE" | "COMPLETED" | "CANCELLED";
 
@@ -37,7 +39,6 @@ const tabs: { label: string; value: TabType }[] = [
 
 export default function Bookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [filtered, setFiltered] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("ALL");
@@ -52,7 +53,6 @@ export default function Bookings() {
     try {
       const data = await bookingsService.getMyBookings();
       setBookings(data);
-      setFiltered(data);
     } catch (e) {
       console.error(e);
     } finally {
@@ -66,26 +66,11 @@ export default function Bookings() {
     loadBookings();
   }, []);
 
-  const formatDate = (s: string) =>
-    new Date(s).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-  const formatTime = (s: string) =>
-    new Date(s).toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-  useEffect(() => {
+  const filtered = useMemo(() => {
     if (activeTab === "ALL") {
-      setFiltered(bookings);
-    } else {
-      setFiltered(bookings.filter((b) => b.status === activeTab));
+      return bookings;
     }
+    return bookings.filter((b) => b.status === activeTab);
   }, [activeTab, bookings]);
 
   const handleCancel = async (id: string) => {
@@ -273,7 +258,7 @@ function BookingCard({
           </View>
           <View className="items-end">
             <Text className="text-[#E8500A] font-bold text-xl">
-              ₹{booking.totalPrice.toLocaleString()}
+              ₹{booking.totalPrice.toLocaleString("en-IN")}
             </Text>
             <Text className="text-[#5A5A72]">Total</Text>
           </View>
@@ -359,7 +344,7 @@ function BookingCard({
             onPress={() => onCancel(booking.id)}
           >
             {isCancelling ? (
-              <ActivityIndicator color={"#FF4DFD"} size={"small"} />
+              <ActivityIndicator color={"#FF4D4D"} size={"small"} />
             ) : (
               <Text className="text-[#FF4D4D] font-bold text-sm tracking-widest uppercase">
                 Cancel Booking

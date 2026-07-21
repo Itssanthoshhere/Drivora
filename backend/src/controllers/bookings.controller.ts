@@ -5,9 +5,9 @@ import { bookingsService } from "../services/bookings.service";
 import { AuthenticateRequest, sendError, sendSuccess } from "../types";
 
 const createBookingSchema = z.object({
-  carId: z.string().uuid(),
-  startTime: z.string().datetime(),
-  endTime: z.string().datetime(),
+  carId: z.uuid(),
+  startTime: z.iso.datetime(),
+  endTime: z.iso.datetime(),
 });
 
 export const bookingsController = {

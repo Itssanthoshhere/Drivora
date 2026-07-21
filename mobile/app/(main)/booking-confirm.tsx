@@ -1,5 +1,6 @@
 import { useBookingStore } from "@/src/store/booking.store";
 import { bookingsService } from "@/src/services/bookings.service";
+import { formatDate, formatTime } from "@/src/utils/date";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -31,28 +32,15 @@ export default function BookingConfirm() {
     return <View className="flex-1 bg-[#0A0A0F]" />;
   }
 
-  const formatDate = (d: Date) =>
-    d.toLocaleDateString("en-IN", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-  const formatTime = (d: Date) =>
-    d.toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-
   const totalHours = Math.round(
-    (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60)
+    (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60),
   );
 
   const totalDays = Math.ceil(totalHours / 24);
   const basePrice =
-    totalHours <= 12 ? car.pricePerHour * totalHours : car.pricePerDay * totalDays;
+    totalHours <= 12
+      ? car.pricePerHour * totalHours
+      : car.pricePerDay * totalDays;
   const totalPrice = Math.round(basePrice);
   const kmLimitTotal = car.kmLimitPerDay * totalDays;
 
@@ -140,7 +128,7 @@ export default function BookingConfirm() {
 
               <View className="items-end">
                 <Text className="text-[#E8500A] font-bold text-2xl">
-                  ₹{car.pricePerDay.toLocaleString()}
+                  ₹{car.pricePerDay.toLocaleString("en-IN")}
                 </Text>
 
                 <Text className="text-[#9494A8] text-xs font-medium">
@@ -256,7 +244,7 @@ export default function BookingConfirm() {
             {[
               {
                 label: `Daily Rate × ${totalDays} day${totalDays > 1 ? "s" : ""}`,
-                value: `₹${car.pricePerDay.toLocaleString()} × ${totalDays}`,
+                value: `₹${car.pricePerDay.toLocaleString("en-IN")} × ${totalDays}`,
               },
               { label: "KM Limit", value: `${kmLimitTotal} km` },
               { label: "Extra KM Charge", value: `₹${car.extraKmCharge}/km` },
@@ -277,7 +265,7 @@ export default function BookingConfirm() {
             <View className="flex-row items-center justify-between py-4">
               <Text className="text-lg font-bold text-white">Total Amount</Text>
               <Text className="text-[#E8500A] font-bold text-3xl">
-                ₹{totalPrice.toLocaleString()}
+                ₹{totalPrice.toLocaleString("en-IN")}
               </Text>
             </View>
           </View>
@@ -300,7 +288,7 @@ export default function BookingConfirm() {
               Total Payable
             </Text>
             <Text className="text-3xl font-bold text-white">
-              ₹{totalPrice.toLocaleString()}
+              ₹{totalPrice.toLocaleString("en-IN")}
             </Text>
           </View>
 

@@ -51,8 +51,12 @@ export default function Profile() {
         text: "Sign Out",
         style: "destructive",
         onPress: async () => {
-          await logout();
-          router.replace("/(auth)/login" as any);
+          try {
+            await logout();
+            router.replace("/(auth)/login" as any);
+          } catch (error: any) {
+            Alert.alert("Logout Failed", error.message || "An error occurred");
+          }
         },
       },
     ]);
@@ -113,7 +117,13 @@ export default function Profile() {
         {/* Header */}
         <View className="px-6 pt-4 pb-8">
           <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={() => {
+              if (router.canGoBack()) {
+                router.back();
+              } else {
+                router.replace("/(main)/home" as any);
+              }
+            }}
             className="w-10 h-10 rounded-2xl bg-[#13131A] border border-[#22222E] items-center justify-center mb-6"
           >
             <Text className="text-base font-bold text-white">←</Text>
