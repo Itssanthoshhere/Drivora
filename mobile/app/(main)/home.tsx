@@ -148,7 +148,10 @@ export default function Home() {
             </Text>
           </View>
 
-          <TouchableOpacity className="w-14 h-14 rounded-2xl bg-[#E8500A] items-center justify-center">
+          <TouchableOpacity
+            onPress={() => router.push("/(main)/profile")}
+            className="w-14 h-14 rounded-2xl bg-[#E8500A] items-center justify-center"
+          >
             <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
               {user?.firstName?.[0]?.toUpperCase()}
             </Text>
@@ -382,7 +385,10 @@ export default function Home() {
           </View>
         )}
 
-        <TouchableOpacity className="mx-6 bg-[#13131A] border border-[#22222E] rounded-3xl p-5 flex-row items-center justify-between">
+        <TouchableOpacity
+          onPress={() => router.push("/(main)/bookings")}
+          className="mx-6 bg-[#13131A] border border-[#22222E] rounded-3xl p-5 flex-row items-center justify-between"
+        >
           <View>
             <Text className="mb-1 text-xl font-bold text-white">
               My Bookings
