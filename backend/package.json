@@ -33,15 +33,16 @@
     "winston": "^3.19.0",
     "zod": "^4.4.3",
     "zon": "^1.0.3",
-    "zustand": "^5.0.14"
-  },
-  "description": "",
-  "devDependencies": {
+    "zustand": "^5.0.14",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "nodemon": "^3.1.14",
+    "@types/node": "^20.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
+  },
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
