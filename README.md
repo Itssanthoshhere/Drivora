@@ -2,6 +2,11 @@
 
 A Premium, High-Fidelity Expo & React Native Application to Browse, Book, and Manage Your Car Rentals.
 
+<div align="center">
+  <a href="./drivora-v1.apk">
+    <img src="https://img.shields.io/badge/Download_APK-E8500A?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
+  </a>
+</div>
 ---
 
 ## 📋 Table of Contents
