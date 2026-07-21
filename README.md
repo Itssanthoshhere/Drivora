@@ -145,6 +145,7 @@ Press `i` to launch the iOS simulator or `a` to launch the Android emulator.
 ## 📦 Latest Build
 
 - **Android Preview Build**: [View on EAS](https://expo.dev/accounts/itssanthoshhere/projects/drivora/builds/e30241f9-7c16-4c0a-9329-140a8e69dedc)
+- **APK Download**: [![Download APK](https://img.shields.io/badge/Download_APK-E8500A?style=for-the-badge&logo=android&logoColor=white)](./drivora-v1.apk)
 
 ---
 
