@@ -142,6 +142,33 @@ Press `i` to launch the iOS simulator or `a` to launch the Android emulator.
 
 ---
 
+## 📦 Latest Build
+
+- **Android Preview Build**: [View on EAS](https://expo.dev/accounts/itssanthoshhere/projects/drivora/builds/a47a43c8-d900-485f-b0dc-4dfb42019ea6)
+
+---
+
+## 🛠️ Build Instructions (EAS)
+
+Drivora is pre-configured for building via Expo Application Services (EAS).
+
+1. **Install the EAS CLI**
+   ```bash
+   npm install -g eas-cli
+   ```
+
+2. **Login to your Expo account**
+   ```bash
+   npx eas-cli login
+   ```
+
+3. **Trigger a Preview Build (Android)**
+   ```bash
+   npx eas-cli build --platform android --profile preview
+   ```
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository
