@@ -11,16 +11,16 @@ A Premium, High-Fidelity Expo & React Native Application to Browse, Book, and Ma
   - [📖 About The Project](#-about-the-project)
   - [✨ Features](#-features)
     - [🔐 Authentication Gate](#-authentication-gate)
-    - [📊 Dashboard & Browsing](#-dashboard--browsing)
+    - [📊 Dashboard \& Browsing](#-dashboard--browsing)
     - [🗓️ Booking Flow](#️-booking-flow)
-    - [📈 User Profile & Stats](#-user-profile--stats)
+    - [📈 User Profile \& Stats](#-user-profile--stats)
   - [🛠️ Tech Stack](#️-tech-stack)
   - [🏗️ Project Structure](#️-project-structure)
   - [🚀 Getting Started](#-getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [🤝 Contributing](#-contributing)
-  - [📜 License & Attribution](#-license--attribution)
+  - [📜 License \& Attribution](#-license--attribution)
 
 ---
 
@@ -155,4 +155,3 @@ Press `i` to launch the iOS simulator or `a` to launch the Android emulator.
 ## 📜 License & Attribution
 
 This project is for educational and portfolio purposes.
-Developed by **V S Santhosh**.
