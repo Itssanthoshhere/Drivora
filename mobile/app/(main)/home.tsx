@@ -15,6 +15,7 @@ import { City, Sublocation } from "@/src/types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { citiesService } from "@/src/services/cities.service";
 import { useBookingStore } from "@/src/store/booking.store";
+import { router } from "expo-router";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -123,6 +124,12 @@ export default function Home() {
     setShowSubModal(false);
     setSubSearch("");
   }, []);
+
+  const handleSearch = () => {
+    if (!draft.city || !draft.sublocation) return;
+    setTimes(startTime, endTime);
+    router.push("/(main)/cars");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-[#0A0A0F]">
@@ -326,6 +333,7 @@ export default function Home() {
           </View>
 
           <TouchableOpacity
+            onPress={handleSearch}
             disabled={!canSearch}
             activeOpacity={0.85}
             className={`rounded-2xl py-5 items-center ${canSearch ? "bg-[#E8500A]" : "bg-[#1C1C26]"}`}
